@@ -185,12 +185,11 @@
                 </script>
 
                 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.note-controle').forEach(function(input) {
-            input.dispatchEvent(new Event('input'));
-        });
-    });
-</script>
+                    // Initialize calculations on page load
+                    document.querySelectorAll('.note-controle').forEach(function(input) {
+                        input.dispatchEvent(new Event('input'));
+                    });
+                </script>
             </div>
         </div>
     </div>
