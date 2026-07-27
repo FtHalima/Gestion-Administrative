@@ -17,10 +17,29 @@ class EtudiantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $etudiants = Etudiant::with('groupe')->get();
-        return view('etudiants.index', compact('etudiants'));
+        $query = Etudiant::with('groupe');
+
+        // Filter by groupe
+        if ($request->filled('groupe_id')) {
+            $query->where('groupe_id', $request->get('groupe_id'));
+        }
+
+        // Search by nom_prenom_francais, matricule, cin
+        if ($request->filled('search')) {
+            $search = $request->get('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nom_prenom_francais', 'like', "%{$search}%")
+                    ->orWhere('matricule', 'like', "%{$search}%")
+                    ->orWhere('cin', 'like', "%{$search}%");
+            });
+        }
+
+        $etudiants = $query->get();
+        $groupes = Groupe::all();
+
+        return view('etudiants.index', compact('etudiants', 'groupes'));
     }
 
     /**
