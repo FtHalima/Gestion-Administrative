@@ -88,8 +88,8 @@ class Etudiant extends Model
         'annee_diplome' => 'integer',
         'annee_sortie' => 'integer',
         'n_ordre' => 'integer',
-        'anciennete_grade' => 'integer',
-        'anciennete_echelon' => 'integer',
+        'anciennete_grade' => 'date',
+        'anciennete_echelon' => 'date',
         // Enums are cast automatically in newer Laravel versions; we keep as string.
     ];
 

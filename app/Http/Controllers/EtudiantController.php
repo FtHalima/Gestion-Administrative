@@ -57,12 +57,14 @@ class EtudiantController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'ppr' => ['required', 'string', 'max:255', 'unique:etudiant,ppr'],
+            'ppr' => ['required', 'integer', 'unique:etudiant,ppr'],
             'cin' => ['nullable', 'string', 'max:255', 'unique:etudiant,cin'],
             'matricule' => ['nullable', 'string', 'max:255', 'unique:etudiant,matricule'],
             'groupe_id' => ['required', 'exists:groupes,id'],
             'nom_prenom_francais' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255', 'unique:etudiant,email'],
+            'anciennete_grade' => ['nullable', 'date'],
+            'anciennete_echelon' => ['nullable', 'date'],
         ]);
 
         Etudiant::create($validated);
@@ -94,12 +96,14 @@ class EtudiantController extends Controller
     public function update(Request $request, Etudiant $etudiant)
     {
         $validated = $request->validate([
-            'ppr' => ['required', 'string', 'max:255', 'unique:etudiant,ppr,' . $etudiant->ppr],
-            'cin' => ['nullable', 'string', 'max:255', 'unique:etudiant,cin,' . $etudiant->ppr],
-            'matricule' => ['nullable', 'string', 'max:255', 'unique:etudiant,matricule,' . $etudiant->ppr],
+            'ppr' => ['required', 'integer', 'unique:etudiant,ppr,' . $etudiant->ppr . ',ppr'],
+            'cin' => ['nullable', 'string', 'max:255', 'unique:etudiant,cin,' . $etudiant->ppr . ',ppr'],
+            'matricule' => ['nullable', 'string', 'max:255', 'unique:etudiant,matricule,' . $etudiant->ppr . ',ppr'],
             'groupe_id' => ['required', 'exists:groupes,id'],
             'nom_prenom_francais' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'email', 'max:255', 'unique:etudiant,email,' . $etudiant->ppr],
+            'email' => ['nullable', 'email', 'max:255', 'unique:etudiant,email,' . $etudiant->ppr . ',ppr'],
+            'anciennete_grade' => ['nullable', 'date'],
+            'anciennete_echelon' => ['nullable', 'date'],
         ]);
 
         $etudiant->update($validated);

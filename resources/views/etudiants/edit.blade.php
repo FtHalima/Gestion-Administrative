@@ -268,7 +268,7 @@
                                     </div>
                                     <div>
                                         <label for="anciennete_grade" class="block text-sm font-medium text-gray-700 mb-1">Ancienneté de grade</label>
-                                        <input id="anciennete_grade" type="text" name="anciennete_grade"
+                                        <input id="anciennete_grade" type="date" name="anciennete_grade"
                                                value="{{ old('anciennete_grade', $etudiant->anciennete_grade) }}"
                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                maxlength="255">
@@ -282,7 +282,7 @@
                                     </div>
                                     <div>
                                         <label for="anciennete_echelon" class="block text-sm font-medium text-gray-700 mb-1">Ancienneté d'échelon</label>
-                                        <input id="anciennete_echelon" type="text" name="anciennete_echelon"
+                                        <input id="anciennete_echelon" type="date" name="anciennete_echelon"
                                                value="{{ old('anciennete_echelon', $etudiant->anciennete_echelon) }}"
                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                maxlength="255">
