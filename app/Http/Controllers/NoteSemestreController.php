@@ -30,6 +30,10 @@ class NoteSemestreController extends Controller
      */
     public function filtrer(Request $request)
     {
+        $annees = AnneeUniversitaire::all();
+        $semestres = Semestre::all();
+        $groupes = Groupe::all();
+
         $validated = $request->validate([
             'annee_universitaire_id' => ['nullable', 'integer', Rule::exists('annees_universitaires', 'id')],
             'semestre_id' => ['nullable', 'integer', Rule::exists('semestres', 'id')],
@@ -48,7 +52,7 @@ class NoteSemestreController extends Controller
             return view('note_semestres.index', compact(
                 'annees', 'semestres', 'groupes',
                 'etudiants', 'resultats',
-                'annee_universitaire_id', 'semestre_id', 'groupe_id'
+                'anneeId', 'semestreId', 'groupeId'
             ));
         }
 
@@ -68,7 +72,7 @@ class NoteSemestreController extends Controller
 
                 // Determine statut based on moyenne
                 if ($moyenne > 10) {
-                    $statut = 'Valide';
+                    $statut = 'Validé';
                 } elseif ($moyenne == 10) {
                     $statut = 'Racheter';
                 } else {
@@ -90,7 +94,7 @@ class NoteSemestreController extends Controller
         return view('note_semestres.index', compact(
             'annees', 'semestres', 'groupes',
             'etudiants', 'resultats',
-            'annee_universitaire_id', 'semestre_id', 'groupe_id'
+            'anneeId', 'semestreId', 'groupeId'
         ));
     }
 
@@ -123,7 +127,7 @@ class NoteSemestreController extends Controller
                 $moyenne = $notesModules->avg('moyenne');
 
                 if ($moyenne > 10) {
-                    $statut = 'Valide';
+                    $statut = 'Validé';
                 } elseif ($moyenne == 10) {
                     $statut = 'Racheter';
                 } else {
