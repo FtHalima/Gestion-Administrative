@@ -93,6 +93,11 @@
                                                maxlength="255">
                                     </div>
                                     <div>
+                                        <label for="photo" class="block text-sm font-medium text-gray-700 mb-1">Photo</label>
+                                        <input id="photo" type="file" name="photo"
+                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    </div>
+                                    <div>
                                         <label for="adresse" class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
                                         <input id="adresse" type="text" name="adresse"
                                                value="{{ old('adresse', $etudiant->adresse) }}"
@@ -291,6 +296,13 @@
                                         <label for="dernier_etablissement" class="block text-sm font-medium text-gray-700 mb-1">Dernier établissement</label>
                                         <input id="dernier_etablissement" type="text" name="dernier_etablissement"
                                                value="{{ old('dernier_etablissement', $etudiant->dernier_etablissement) }}"
+                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                               maxlength="255">
+                                    </div>
+                                    <div>
+                                        <label for="matiere_ou_fonction" class="block text-sm font-medium text-gray-700 mb-1">Matière ou fonction</label>
+                                        <input id="matiere_ou_fonction" type="text" name="matiere_ou_fonction"
+                                               value="{{ old('matiere_ou_fonction', $etudiant->matiere_ou_fonction) }}"
                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                                maxlength="255">
                                     </div>
