@@ -17,6 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('mes-modules', [App\Http\Controllers\ModuleController::class, 'mesModules'])
         ->name('modules.mes-modules');
+    Route::get('note-examens', [App\Http\Controllers\NoteExamenController::class, 'index'])->name('note-examens.index');
+    Route::get('note-examens/filtrer', [App\Http\Controllers\NoteExamenController::class, 'filtrer'])->name('note-examens.filtrer');
+    Route::post('note-examens/enregistrer', [App\Http\Controllers\NoteExamenController::class, 'enregistrer'])->name('note-examens.enregistrer');
 });
 
 require __DIR__.'/auth.php';
