@@ -26,6 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::get('note-semestres', [App\Http\Controllers\NoteSemestreController::class, 'index'])->name('note-semestres.index');
     Route::get('note-semestres/filtrer', [App\Http\Controllers\NoteSemestreController::class, 'filtrer'])->name('note-semestres.filtrer');
     Route::post('note-semestres/enregistrer', [App\Http\Controllers\NoteSemestreController::class, 'enregistrer'])->name('note-semestres.enregistrer');
+    Route::get('note-memoires', [App\Http\Controllers\NoteMemoireController::class, 'index'])->name('note-memoires.index');
+    Route::get('note-memoires/filtrer', [App\Http\Controllers\NoteMemoireController::class, 'filtrer'])->name('note-memoires.filtrer');
+    Route::post('note-memoires/enregistrer', [App\Http\Controllers\NoteMemoireController::class, 'enregistrer'])->name('note-memoires.enregistrer');
 });
 
 require __DIR__.'/auth.php';
