@@ -29,22 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::get('note-memoires', [App\Http\Controllers\NoteMemoireController::class, 'index'])->name('note-memoires.index');
     Route::get('note-memoires/filtrer', [App\Http\Controllers\NoteMemoireController::class, 'filtrer'])->name('note-memoires.filtrer');
     Route::post('note-memoires/enregistrer', [App\Http\Controllers\NoteMemoireController::class, 'enregistrer'])->name('note-memoires.enregistrer');
+    Route::get('note-stages', [App\Http\Controllers\NoteStageController::class, 'index'])->name('note-stages.index');
+    Route::get('note-stages/filtrer', [App\Http\Controllers\NoteStageController::class, 'filtrer'])->name('note-stages.filtrer');
+    Route::post('note-stages/enregistrer', [App\Http\Controllers\NoteStageController::class, 'enregistrer'])->name('note-stages.enregistrer');
 });
 
 require __DIR__.'/auth.php';
-
-Route::middleware(['auth', 'role:administration'])->group(function () {
-    Route::resource('utilisateurs', App\Http\Controllers\UtilisateurController::class);
-    Route::post('utilisateurs/{utilisateur}/reset-password', [App\Http\Controllers\UtilisateurController::class, 'resetPassword'])
-        ->name('utilisateurs.reset-password');
-    Route::resource('annees-universitaires', App\Http\Controllers\AnneeUniversitaireController::class)
-        ->parameters(['annees-universitaires' => 'anneeUniversitaire']);
-    Route::resource('semestres', App\Http\Controllers\SemestreController::class)
-        ->parameters(['semestres' => 'semestre']);
-    Route::resource('modules', App\Http\Controllers\ModuleController::class)
-        ->parameters(['modules' => 'module']);
-    Route::resource('groupes', App\Http\Controllers\GroupeController::class)
-        ->parameters(['groupes' => 'groupe']);
-    Route::resource('etudiants', App\Http\Controllers\EtudiantController::class)
-        ->parameters(['etudiants' => 'etudiant']);
-});
