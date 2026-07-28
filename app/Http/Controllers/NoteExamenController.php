@@ -22,7 +22,11 @@ class NoteExamenController extends Controller
     {
         $annees = AnneeUniversitaire::all();
         $semestres = Semestre::all();
-        $modules = Module::all();
+        if (auth()->user()->role === 'enseignant') {
+            $modules = Module::where('professeur_id', auth()->id())->get();
+        } else {
+            $modules = Module::all();
+        }
         $groupes = Groupe::all();
 
         return view('note_examens.index', compact(
@@ -57,10 +61,22 @@ class NoteExamenController extends Controller
         $groupeId = $request->input('groupe_id');
         $typeExam = $request->input('type_exam');
 
+        // Security check for enseignant
+        if (auth()->user()->role === 'enseignant' && $moduleId) {
+            $module = Module::find($moduleId);
+            if (!$module || $module->professeur_id !== auth()->id()) {
+                abort(403, "Vous n'êtes pas autorisé à accéder à ce module.");
+            }
+        }
+
         // Load filter lists for the view
         $annees = AnneeUniversitaire::all();
         $semestres = Semestre::all();
-        $modules = Module::all();
+        if (auth()->user()->role === 'enseignant') {
+            $modules = Module::where('professeur_id', auth()->id())->get();
+        } else {
+            $modules = Module::all();
+        }
         $groupes = Groupe::all();
 
         // If no group selected, show empty list
@@ -123,6 +139,14 @@ class NoteExamenController extends Controller
             'notes' => 'required|array',
             'notes.*' => 'nullable|numeric|min:0|max:20',
         ]);
+
+        // Security check for enseignant
+        if (auth()->user()->role === 'enseignant') {
+            $module = Module::find($request->module_id);
+            if (!$module || $module->professeur_id !== auth()->id()) {
+                abort(403, "Vous n'êtes pas autorisé à modifier les notes de ce module.");
+            }
+        }
 
         foreach ($request->notes as $etudiantPpr => $note) {
             if ($note === null || $note === '') {

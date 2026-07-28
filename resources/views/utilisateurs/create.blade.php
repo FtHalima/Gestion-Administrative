@@ -21,7 +21,7 @@
                             </div>
                         @endif
 
-                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
                                 <input id="nom" name="nom" type="text" required

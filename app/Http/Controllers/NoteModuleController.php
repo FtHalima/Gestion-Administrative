@@ -22,7 +22,11 @@ class NoteModuleController extends Controller
     {
         $annees = AnneeUniversitaire::all();
         $semestres = Semestre::all();
-        $modules = Module::all();
+        if (auth()->user()->role === 'enseignant') {
+            $modules = Module::where('professeur_id', auth()->id())->get();
+        } else {
+            $modules = Module::all();
+        }
         $groupes = Groupe::all();
 
         return view('note_modules.index', compact(
@@ -55,10 +59,22 @@ class NoteModuleController extends Controller
         $moduleId = $request->input('module_id');
         $groupeId = $request->input('groupe_id');
 
+        // Security check for enseignant
+        if (auth()->user()->role === 'enseignant' && $moduleId) {
+            $module = Module::find($moduleId);
+            if (!$module || $module->professeur_id !== auth()->id()) {
+                abort(403, "Vous n'êtes pas autorisé à accéder à ce module.");
+            }
+        }
+
         // Load filter lists for the view
         $annees = AnneeUniversitaire::all();
         $semestres = Semestre::all();
-        $modules = Module::all();
+        if (auth()->user()->role === 'enseignant') {
+            $modules = Module::where('professeur_id', auth()->id())->get();
+        } else {
+            $modules = Module::all();
+        }
         $groupes = Groupe::all();
 
         // If no group selected, show empty lists
@@ -124,6 +140,14 @@ class NoteModuleController extends Controller
             'notes_controle.*' => 'nullable|numeric|min:0|max:20',
             'notes_exam.*' => 'nullable|numeric|min:0|max:20',
         ]);
+
+        // Security check for enseignant
+        if (auth()->user()->role === 'enseignant') {
+            $module = Module::find($request->module_id);
+            if (!$module || $module->professeur_id !== auth()->id()) {
+                abort(403, "Vous n'êtes pas autorisé à modifier les notes de ce module.");
+            }
+        }
 
         // Get the student list again to iterate over only those in the selected group
         $etudiants = Etudiant::where('groupe_id', $request->groupe_id)
