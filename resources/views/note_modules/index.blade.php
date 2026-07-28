@@ -146,6 +146,10 @@
                                         class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     Enregistrer les notes
                                 </button>
+                                <a href="{{ route('note-modules.exporterCsv', request()->only(['annee_universitaire_id', 'semestre_id', 'module_id', 'groupe_id'])) }}"
+                                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-300 ml-2">
+                                    📥 Exporter CSV
+                                </a>
                             </div>
                         </form>
                     @else
