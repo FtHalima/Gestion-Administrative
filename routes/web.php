@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('note-stages', [App\Http\Controllers\NoteStageController::class, 'index'])->name('note-stages.index');
     Route::get('note-stages/filtrer', [App\Http\Controllers\NoteStageController::class, 'filtrer'])->name('note-stages.filtrer');
     Route::post('note-stages/enregistrer', [App\Http\Controllers\NoteStageController::class, 'enregistrer'])->name('note-stages.enregistrer');
+    Route::get('rapports', [App\Http\Controllers\RapportController::class, 'index'])->name('rapports.index');
+    Route::get('rapports/releve-notes-formulaire', [App\Http\Controllers\RapportController::class, 'releveNotesFormulaire'])->name('rapports.releve-notes-formulaire');
     Route::get('rapports/releve-notes', [App\Http\Controllers\RapportController::class, 'releveNotes'])->name('rapports.releve-notes');
 });
 

@@ -83,6 +83,7 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre de modules notés</th>
                                         <th scope="col" class="left text-xs font-medium text-gray-500 uppercase tracking-wider">Moyenne</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -119,6 +120,15 @@
                                                     </span>
                                                 @else
                                                     <span class="text-gray-500">-</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                                                @if(isset($resultat['moyenne']) && !is_null($resultat['moyenne']))
+                                                    <a href="{{ route('rapports.releve-notes', ['etudiant_ppr' => $etudiant->ppr, 'semestre_id' => request('semestre_id')]) }}"
+                                                       target="_blank"
+                                                       class="text-indigo-600 hover:text-indigo-900 text-sm">
+                                                        📄 Relevé PDF
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr>

@@ -100,9 +100,9 @@
                         Notes de semestres
                     </a>
 
-                    <!-- Imprimer les rapports (placeholder) -->
-                    <a href="#"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors">
+                    <!-- Imprimer les rapports -->
+                    <a href="{{ route('rapports.index') }}"
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('rapports.index') ? 'bg-white/20' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H5a2 2 0 00-2 2v4a2 2 0 002 2h4l2 2h2l2-2h2a2 2 0 002-2V7a2 2 0 002-2? Let's re-evaluate: The original "Imprimer les rapports" SVG path is correct. We'll keep it as before.
                             </path>

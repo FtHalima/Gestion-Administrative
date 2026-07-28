@@ -3,15 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AnneeUniversitaire;
 use App\Models\Etudiant;
-use App\Models\NoteModule;
-use App\Models\NoteSemestre;
+use App\Models\Groupe;
+use App\Models\Semestre;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class RapportController extends Controller
 {
     /**
-     * Génère un PDF du relevé de notes d'un étudiant pour un semestre.
+     * Display a listing of the resource for reports.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('rapports.index');
+    }
+
+    /**
+     * Show the form to select group and semester, then list students.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
+    public function releveNotesFormulaire(Request $request)
+    {
+        $annees = AnneeUniversitaire::all();
+        $semestres = Semestre::all();
+        $groupes = Groupe::all();
+
+        $groupeId = $request->groupe_id;
+        $semestreId = $request->semestre_id;
+
+        $etudiants = collect();
+        if ($groupeId) {
+            $etudiants = Etudiant::where('groupe_id', $groupeId)->get();
+        }
+
+        return view('rapports.releve-notes-formulaire', compact('annees', 'semestres', 'groupes', 'etudiants', 'semestreId'));
+    }
+
+    /**
+     * Generate a PDF transcript of grades for a student.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
@@ -23,14 +57,14 @@ class RapportController extends Controller
             'semestre_id' => ['required', 'exists:semestres,id'],
         ]);
 
-        $etudiant = Etudiant::findOrFail($request->etudiant_ppr);
+        $etudiant = Etudiant::where('ppr', $request->etudiant_ppr)->firstOrFail();
 
-        $notesModules = NoteModule::where('etudiant_ppr', $etudiant->ppr)
+        $notesModules = \App\Models\NoteModule::where('etudiant_ppr', $etudiant->ppr)
             ->where('semestre_id', $request->semestre_id)
             ->with('module')
             ->get();
 
-        $noteSemestre = NoteSemestre::where('etudiant_ppr', $etudiant->ppr)
+        $noteSemestre = \App\Models\NoteSemestre::where('etudiant_ppr', $etudiant->ppr)
             ->where('semestre_id', $request->semestre_id)
             ->first();
 
