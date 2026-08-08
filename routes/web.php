@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('note-modules', [App\Http\Controllers\NoteModuleController::class, 'index'])->name('note-modules.index');
     Route::get('note-modules/filtrer', [App\Http\Controllers\NoteModuleController::class, 'filtrer'])->name('note-modules.filtrer');
     Route::post('note-modules/enregistrer', [App\Http\Controllers\NoteModuleController::class, 'enregistrer'])->name('note-modules.enregistrer');
+    Route::get('note-modules/exporter-csv', [App\Http\Controllers\NoteModuleController::class, 'exporterCsv'])->name('note-modules.exporterCsv');
     Route::get('note-semestres', [App\Http\Controllers\NoteSemestreController::class, 'index'])->name('note-semestres.index');
     Route::get('note-semestres/filtrer', [App\Http\Controllers\NoteSemestreController::class, 'filtrer'])->name('note-semestres.filtrer');
     Route::post('note-semestres/enregistrer', [App\Http\Controllers\NoteSemestreController::class, 'enregistrer'])->name('note-semestres.enregistrer');
@@ -54,4 +55,12 @@ Route::middleware(['auth', 'role:administration'])->group(function () {
         ->parameters(['groupes' => 'groupe']);
     Route::resource('etudiants', App\Http\Controllers\EtudiantController::class)
         ->parameters(['etudiants' => 'etudiant']);
+
+    // Import / Export
+    Route::get('etudiants/import', [App\Http\Controllers\EtudiantController::class, 'importForm'])
+        ->name('etudiants.import');
+    Route::post('etudiants/import', [App\Http\Controllers\EtudiantController::class, 'importStore'])
+        ->name('etudiants.import.store');
+    Route::get('etudiants/export/csv', [App\Http\Controllers\EtudiantController::class, 'exportCsv'])
+        ->name('etudiants.export.csv');
 });

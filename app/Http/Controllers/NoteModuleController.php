@@ -196,4 +196,93 @@ class NoteModuleController extends Controller
 
         return redirect()->back()->with('success', 'Notes de module enregistrées avec succès.');
     }
+
+    /**
+     * Export module notes to CSV.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Http\JsonResponse
+     */
+    public function exporterCsv(Request $request)
+    {
+        // Validate required filters
+        $request->validate([
+            'annee_universitaire_id' => 'required|integer|exists:annees_universitaires,id',
+            'semestre_id'            => 'required|integer|exists:semestres,id',
+            'module_id'              => 'required|integer|exists:modules,id',
+            'groupe_id'              => 'required|integer|exists:groupes,id',
+        ]);
+
+        // Cast to int (defensive)
+        $anneeId = (int) $request->input('annee_universitaire_id');
+        $semestreId = (int) $request->input('semestre_id');
+        $moduleId = (int) $request->input('module_id');
+        $groupeId = (int) $request->input('groupe_id');
+
+        // Fetch students of the selected group
+        $etudiants = Etudiant::where('groupe_id', $groupeId)->get();
+
+        // Fetch their notes for the selected period/module
+        $notes = NoteModule::whereIn('etudiant_ppr', $etudiants->pluck('ppr'))
+            ->where('annee_universitaire_id', $anneeId)
+            ->where('semestre_id', $semestreId)
+            ->where('module_id', $moduleId)
+            ->get()
+            ->keyBy('etudiant_ppr');
+
+        // Debug: log raw notes values
+        \Log::debug('CSV Export notes:', [
+            'filters' => compact('anneeId', 'semestreId', 'moduleId', 'groupeId'),
+            'count_etudiants' => $etudiants->count(),
+            'count_notes' => $notes->count(),
+            'notes' => $notes->map(function ($note) {
+                return [
+                    'ppr' => $note->etudiant_ppr,
+                    'note_controle' => $note->note_controle,
+                    'note_exam' => $note->note_exam,
+                    'moyenne' => $note->moyenne,
+                    'statut' => $note->statut,
+                ];
+            })->toArray(),
+        ]);
+
+        $filename = 'notes_module_' . now()->format('Y-m-d_His') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $callback = function () use ($etudiants, $notes) {
+            $handle = fopen('php://output', 'w');
+            // UTF-8 BOM for Excel
+            fputs($handle, "\xEF\xBB\xBF");
+            // Header – semicolon separated
+            fputcsv($handle, ['PPR', 'CIN', 'Nom complet', 'Note Contrôle', 'Note Examen', 'Moyenne', 'Statut'], ';');
+
+            foreach ($etudiants as $etudiant) {
+                $note = $notes[$etudiant->ppr] ?? null;
+
+                // Ensure numeric values are formatted with two decimal places, using comma as decimal separator
+                $noteControle = $note ? number_format((float) $note->note_controle, 2, ',', '') : '';
+                $noteExam     = $note ? number_format((float) $note->note_exam,     2, ',', '') : '';
+                $moyenne      = $note ? number_format((float) $note->moyenne,      2, ',', '') : '';
+                $statut       = $note ? $note->statut : '';
+
+                fputcsv($handle, [
+                    $etudiant->ppr,
+                    $etudiant->cin,
+                    $etudiant->nom_prenom_francais,
+                    $noteControle,
+                    $noteExam,
+                    $moyenne,
+                    $statut,
+                ], ';');
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

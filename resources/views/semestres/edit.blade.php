@@ -33,14 +33,14 @@
                             <div>
                                 <label for="date_debut" class="block text-sm font-medium text-gray-700">Date de début</label>
                                 <input id="date_debut" name="date_debut" type="date" required
-                                       value="{{ old('date_debut', $semestre->date_debut) }}"
+                                       value="{{ old('date_debut', $semestre->date_debut ? \Carbon\Carbon::parse($semestre->date_debut)->format('Y-m-d') : '') }}"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
                             <div>
                                 <label for="date_fin" class="block text-sm font-medium text-gray-700">Date de fin</label>
                                 <input id="date_fin" name="date_fin" type="date" required
-                                       value="{{ old('date_fin', $semestre->date_fin) }}"
+                                       value="{{ old('date_fin', $semestre->date_fin ? \Carbon\Carbon::parse($semestre->date_fin)->format('Y-m-d') : '') }}"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 

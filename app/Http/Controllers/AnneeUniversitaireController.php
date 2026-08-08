@@ -37,7 +37,7 @@ class AnneeUniversitaireController extends Controller
             'nom' => ['required', 'string', 'max:255', 'unique:annees_universitaires,nom'],
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date', 'after:date_debut'],
-            'statut' => ['required', 'string', 'in:actif,archivée'],
+            'statut' => ['required', 'string', 'in:actif,terminé,planifié'],
         ]);
 
         AnneeUniversitaire::create($validated);
@@ -72,7 +72,7 @@ class AnneeUniversitaireController extends Controller
             'nom' => ['required', 'string', 'max:255', 'unique:annees_universitaires,nom,' . $anneeUniversitaire->id],
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date', 'after:date_debut'],
-            'statut' => ['required', 'string', 'in:actif,archivée'],
+            'statut' => ['required', 'string', 'in:actif,terminé,planifié'],
         ]);
 
         $anneeUniversitaire->update($validated);
@@ -89,7 +89,7 @@ class AnneeUniversitaireController extends Controller
         // Check if any groupes are linked to this annee universitaire
         $hasGroupes = Groupe::where('annee_universitaire_id', $anneeUniversitaire->id)->exists();
         // Check if any semestres are linked
-        $hasSemestres = Semestre::where('annee_universitaire_id', $anneeUniversitaire->id)->exists();
+        $hasSemestres = \App\Models\Semestre::where('annee_universitaire_id', $anneeUniversitaire->id)->exists();
 
         if ($hasGroupes || $hasSemestres) {
             return Redirect::back()

@@ -9,6 +9,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    @if (session('success'))
+                        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <!-- Filter form -->
                     <form method="GET" action="{{ route('etudiants.index') }}" class="mb-6">
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -45,10 +57,13 @@
                         </div>
                     </form>
 
-                    <!-- New student button -->
-                    <div class="mb-4">
+                    <!-- Buttons: New student, Export -->
+                    <div class="mb-4 flex items-center gap-3">
                         <a href="{{ route('etudiants.create') }}" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus-ring-offset-2 focus:ring-indigo-500">
                             + Nouvel étudiant
+                        </a>
+                        <a href="{{ route('etudiants.export.csv') }}" class="px-3 py-1 bg-gray-800 text-white text-sm rounded hover:bg-gray-700">
+                            Exporter CSV
                         </a>
                     </div>
 
@@ -123,4 +138,14 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('form.d-inline').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                console.log('Form submitted', this);
+                // Uncomment the line below to prevent submission for debugging
+                // e.preventDefault();
+            });
+        });
+    </script>
 </x-app-layout>

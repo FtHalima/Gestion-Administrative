@@ -13,6 +13,7 @@ class Semestre extends Model
         'date_debut',
         'date_fin',
         'annee_universitaire_id',
+        'statut',
     ];
 
     protected $casts = [

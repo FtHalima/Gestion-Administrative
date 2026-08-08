@@ -70,7 +70,15 @@ class RapportController extends Controller
 
         $semestre = \App\Models\Semestre::findOrFail($request->semestre_id);
 
-        $pdf = Pdf::loadView('rapports.releve-notes', compact('etudiant', 'notesModules', 'noteSemestre', 'semestre'));
+        $pdf = Pdf::loadView('rapports.releve-notes', compact('etudiant', 'notesModules', 'noteSemestre', 'semestre'))
+            ->setOptions([
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => true,
+                'defaultFont' => 'DejaVu Sans',
+                'fontDir' => base_path('vendor/dompdf/dompdf/lib/fonts'),
+                'fontHeightRatio' => 1.1,
+            ])
+            ->setPaper('a4', 'portrait');
 
         return $pdf->stream('releve-notes-' . $etudiant->ppr . '.pdf');
     }

@@ -33,23 +33,23 @@
                             <div>
                                 <label for="date_debut" class="block text-sm font-medium text-gray-700">Date de début</label>
                                 <input id="date_debut" name="date_debut" type="date" required
-                                       value="{{ old('date_debut', $anneeUniversitaire->date_debut) }}"
+                                       value="{{ old('date_debut', $anneeUniversitaire->date_debut ? \Carbon\Carbon::parse($anneeUniversitaire->date_debut)->format('Y-m-d') : '') }}"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
                             <div>
                                 <label for="date_fin" class="block text-sm font-medium text-gray-700">Date de fin</label>
                                 <input id="date_fin" name="date_fin" type="date" required
-                                       value="{{ old('date_fin', $anneeUniversitaire->date_fin) }}"
+                                       value="{{ old('date_fin', $anneeUniversitaire->date_fin ? \Carbon\Carbon::parse($anneeUniversitaire->date_fin)->format('Y-m-d') : '') }}"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
                             <div class="sm:col-span-2">
                                 <label for="statut" class="block text-sm font-medium text-gray-700">Statut</label>
-                                <select id="statut" name="statut"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <select id="statut" name="statut" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     <option value="actif" {{ old('statut', $anneeUniversitaire->statut) == 'actif' ? 'selected' : '' }}>Actif</option>
-                                    <option value="archivée" {{ old('statut', $anneeUniversitaire->statut) == 'archivée' ? 'selected' : '' }}>Archivée</option>
+                                    <option value="terminé" {{ old('statut', $anneeUniversitaire->statut) == 'terminé' ? 'selected' : '' }}>Terminé</option>
+                                    <option value="planifié" {{ old('statut', $anneeUniversitaire->statut) == 'planifié' ? 'selected' : '' }}>Planifié</option>
                                 </select>
                             </div>
                         </div>
