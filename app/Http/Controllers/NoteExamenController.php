@@ -20,7 +20,7 @@ class NoteExamenController extends Controller
      */
     public function index()
     {
-        $annees = AnneeUniversitaire::all();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $semestres = Semestre::all();
         if (auth()->user()->role === 'enseignant') {
             $modules = Module::where('professeur_id', auth()->id())->get();
@@ -70,7 +70,7 @@ class NoteExamenController extends Controller
         }
 
         // Load filter lists for the view
-        $annees = AnneeUniversitaire::all();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $semestres = Semestre::all();
         if (auth()->user()->role === 'enseignant') {
             $modules = Module::where('professeur_id', auth()->id())->get();

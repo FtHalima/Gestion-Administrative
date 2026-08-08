@@ -17,7 +17,7 @@ class NoteMemoireController extends Controller
      */
     public function index()
     {
-        $annees = AnneeUniversitaire::all();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $groupes = Groupe::all();
 
         return view('note_memoires.index', compact('annees', 'groupes'));
@@ -29,7 +29,7 @@ class NoteMemoireController extends Controller
     public function filtrer(Request $request)
     {
         // Load lists for the filter selects (avoid undefined variable issue)
-        $annees = AnneeUniversitaire::all();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $groupes = Groupe::all();
 
         $validated = $request->validate([

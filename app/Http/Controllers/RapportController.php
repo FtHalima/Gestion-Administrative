@@ -29,7 +29,7 @@ class RapportController extends Controller
      */
     public function releveNotesFormulaire(Request $request)
     {
-        $annees = AnneeUniversitaire::all();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $semestres = Semestre::all();
         $groupes = Groupe::all();
 

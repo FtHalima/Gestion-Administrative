@@ -18,7 +18,7 @@ class NoteSemestreController extends Controller
      */
     public function index()
     {
-        $annees = AnneeUniversitaire::all();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $semestres = Semestre::all();
         $groupes = Groupe::all();
 
@@ -30,7 +30,7 @@ class NoteSemestreController extends Controller
      */
     public function filtrer(Request $request)
     {
-        $annees = AnneeUniversitaire::all();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $semestres = Semestre::all();
         $groupes = Groupe::all();
 
