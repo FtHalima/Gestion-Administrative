@@ -14,22 +14,22 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased flex">
+    <body class="font-sans antialiased flex overflow-x-hidden">
         <!-- Sidebar -->
-        <aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#1e2a5e] text-white z-20">
+        <aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#00236F] text-white z-20">
             <div class="flex flex-col h-full px-3 pt-4">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3 mb-6">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9l3-3m0 0l3 3m-3-3v8m0-4a2 2 0 100-4 2 2 0 000 4zm-4 8a2 2 0 100-4 2 2 0 000 4zm8 0a2 2 0 100-4 2 2 0 000 4z" />
                     </svg>
-                    <h1 class="text-lg font-semibold">Système de gestion académique</h1>
+                    <h1 class="text-lg font-semibold text-white">Système de gestion académique</h1>
                 </div>
                 <!-- Navigation -->
                 <nav class="mt-2 space-y-1 flex-1">
                     <!-- Dashboard -->
                     <a href="{{ route('dashboard') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('dashboard') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('dashboard') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h10a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 012-2v-9a2 2 0 012-2zm0 0v9a2 2 0 002 2h10a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
                         </svg>
@@ -41,7 +41,7 @@
                         @if (auth()->user()->role === 'administration')
                             <!-- Utilisateurs -->
                             <a href="{{ route('utilisateurs.index') }}"
-                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('utilisateurs.index') ? 'bg-white/20' : '' }}">
+                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('utilisateurs.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                                 <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 012-2h11zm0 0h-1a4 3 0 00-5 3v1a1 1 0 001 2h1a1 1 0 011 1v2a1 1 0 01-1 1H6a1 1 0 00-1 1v2a1 1 0 011 1h1a1 1 0 001-1v-1a3 3 0 013-3h11z" />
                                 </svg>
@@ -50,7 +50,7 @@
 
                             <!-- Étudiants -->
                             <a href="{{ route('etudiants.index') }}"
-                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('etudiants.index') ? 'bg-white/20' : '' }}">
+                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('etudiants.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                                 <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v1.18C7.64 4.36 6 6.93 6 10v5a2 2 0 002 2h6z" />
                                 </svg>
@@ -61,7 +61,7 @@
 
                     <!-- Common links (visible to all authenticated users) -->
                     <a href="{{ route('note-examens.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-examens.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-examens.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 0a3 3 0 100-6m-6 6a3 3 0 100-6m6 6a3 3 0 100-6" />
                         </svg>
@@ -69,7 +69,7 @@
                     </a>
 
                     <a href="{{ route('note-modules.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-modules.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-modules.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 0a3 3 0 100-6m-6 6a3 3 0 100-6m6 6a3 3 0 100-6" />
                         </svg>
@@ -77,7 +77,7 @@
                     </a>
 
                     <a href="{{ route('note-stages.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-stages.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-stages.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                         </svg>
@@ -85,7 +85,7 @@
                     </a>
 
                     <a href="{{ route('note-memoires.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-memoires.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-memoires.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                         </svg>
@@ -93,7 +93,7 @@
                     </a>
 
                     <a href="{{ route('note-semestres.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-semestres.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-semestres.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                         </svg>
@@ -102,7 +102,7 @@
 
                     <!-- Imprimer les rapports -->
                     <a href="{{ route('rapports.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('rapports.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('rapports.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H5a2 2 0 00-2 2v4a2 2 0 002 2h4l2 2h2l2-2h2a2 2 0 002-2V7a2 2 0 002-2V5z" />
                         </svg>
@@ -113,7 +113,7 @@
                     @auth
                         @if (auth()->user()->role === 'administration')
                             <a href="{{ route('parametres.index') }}"
-                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('parametres.index') ? 'bg-white/20' : '' }}">
+                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('parametres.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                                 <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                                 </svg>
@@ -153,29 +153,27 @@
         </aside>
 
         <!-- Main Content -->
-        <div class="ml-64 min-h-screen bg-gray-100 flex flex-col">
+        <div class="ml-64 min-h-screen bg-gray-100 flex flex-col min-w-0">
             <!-- Header (white bar) -->
             <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                <div class="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                     <!-- Title from slot -->
                     @isset($header)
                     <div class="flex items-center space-x-4">
                         {{ $header }}
                     </div>
-                    @endisset
-                    <!-- Back button -->
-                    <div class="ml-auto flex items-center space-x-2">
-                        <a href="javascript:history.back()" class="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors">
-                            ← Retour
-                        </a>
+                    @else
+                    <div class="flex items-center space-x-4">
+                        <h2 class="text-[#00236F] text-xl font-bold">Gestion administrative</h2>
                     </div>
+                    @endisset
                     <!-- Right side: search, notifications, settings, avatar -->
                     <div class="flex items-center space-x-4">
                         <!-- Search (visual only) -->
                         <div class="relative w-32">
                             <input type="search"
                                    placeholder="Rechercher..."
-                                   class="pl-8 pr-2 py-1 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                                   class="pl-8 pr-2 py-1 bg-[#EFF4FF] border-[#C5C5D3] rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                             <svg class="absolute left-2 top-1/2 -mt-1.5 h-4 w-4 text-gray-400"
                                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -198,7 +196,7 @@
                         </svg>
 
                         <!-- Avatar with initials -->
-                        <div class="h-8 w-8 rounded-full bg-[#1e2a5e] text-white flex items-center justify-center text-xs font-semibold">
+                        <div class="h-8 w-8 rounded-xl bg-[#1E3A8A] text-white flex items-center justify-center text-xs font-semibold">
                             {{ strtoupper(substr(Auth::user()->prenom, 0, 1) . substr(Auth::user()->nom, 0, 1)) }}
                         </div>
                     </div>

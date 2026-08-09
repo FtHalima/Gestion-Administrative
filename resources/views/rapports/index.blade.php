@@ -11,7 +11,7 @@
     </slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="w-full sm:px-6 lg:px-8">
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <!-- Relevé de notes -->
                 <a href="{{ route('rapports.releve-notes-formulaire') }}" class="group block">

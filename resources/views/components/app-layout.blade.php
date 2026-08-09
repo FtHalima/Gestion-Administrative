@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased flex">
+    <body class="font-sans antialiased flex overflow-x-hidden">
         <!-- Sidebar -->
         <aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#1e2a5e] text-white z-20">
             <div class="flex flex-col h-full px-3 pt-4">
@@ -153,22 +153,16 @@
         </aside>
 
         <!-- Main Content -->
-        <div class="ml-64 min-h-screen bg-gray-100 flex flex-col">
+        <div class="ml-64 min-h-screen bg-gray-100 flex flex-col min-w-0">
             <!-- Header (white bar) -->
             <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                <div class="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                     <!-- Title from slot -->
                     @isset($header)
                     <div class="flex items-center space-x-4">
                         {{ $header }}
                     </div>
                     @endisset
-                    <!-- Back button -->
-                    <div class="ml-auto flex items-center space-x-2">
-                        <a href="javascript:history.back()" class="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors">
-                            ← Retour
-                        </a>
-                    </div>
                     <!-- Right side: search, notifications, settings, avatar -->
                     <div class="flex items-center space-x-4">
                         <!-- Search (visual only) -->
