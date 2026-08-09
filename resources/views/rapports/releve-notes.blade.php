@@ -80,16 +80,8 @@
                     <td>{{ $etudiant->nom_prenom_francais }}</td>
                 </tr>
                 <tr>
-                    <th>PPR</th>
-                    <td>{{ $etudiant->ppr }}</td>
-                </tr>
-                <tr>
                     <th>CIN</th>
                     <td>{{ $etudiant->cin }}</td>
-                </tr>
-                <tr>
-                    <th>Matricule</th>
-                    <td>{{ $etudiant->matricule }}</td>
                 </tr>
             </table>
         </div>
