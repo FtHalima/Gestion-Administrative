@@ -15,7 +15,7 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        $modules = Module::with('semestre', 'professeur')->get();
+        $modules = Module::with('semestre', 'professeur')->orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         return view('modules.index', compact('modules'));
     }
 
@@ -109,6 +109,7 @@ class ModuleController extends Controller
     {
         $modules = Module::with('semestre')
             ->where('professeur_id', auth()->id())
+            ->orderByRaw('CAST(code_module AS UNSIGNED) ASC')
             ->get();
 
         return view('modules.mes-modules', compact('modules'));

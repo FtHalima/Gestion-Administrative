@@ -23,9 +23,9 @@ class NoteModuleController extends Controller
         $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $semestres = Semestre::all();
         if (auth()->user()->role === 'enseignant') {
-            $modules = Module::where('professeur_id', auth()->id())->get();
+            $modules = Module::where('professeur_id', auth()->id())->orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         } else {
-            $modules = Module::all();
+            $modules = Module::orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         }
         $groupes = Groupe::all();
 
@@ -71,9 +71,9 @@ class NoteModuleController extends Controller
         $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
         $semestres = Semestre::all();
         if (auth()->user()->role === 'enseignant') {
-            $modules = Module::where('professeur_id', auth()->id())->get();
+            $modules = Module::where('professeur_id', auth()->id())->orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         } else {
-            $modules = Module::all();
+            $modules = Module::orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         }
         $groupes = Groupe::all();
 
