@@ -1,7 +1,7 @@
 <x-app-layout>
     <slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Liste des étudiants
+            Liste des Ã©tudiants
         </h2>
     </slot>
 
@@ -51,7 +51,7 @@
                                     Filtrer
                                 </button>
                                 <a href="{{ route('etudiants.index') }}" class="ml-3 mt-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                    Réinitialiser
+                                    RÃ©initialiser
                                 </a>
                             </div>
                         </div>
@@ -60,19 +60,13 @@
                     <!-- Buttons: New student, Export -->
                     <div class="mb-4 flex items-center gap-3">
                         <a href="{{ route('etudiants.create') }}" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus-ring-offset-2 focus:ring-indigo-500">
-                            + Nouvel étudiant
+                            + Nouvel Ã©tudiant
                         </a>
-                        <form method="POST" action="{{ route('etudiants.importer') }}" enctype="multipart/form-data" id="import-form" class="inline ml-2">
+                        <form method="POST" action="{{ route('etudiants.importer') }}" enctype="multipart/form-data" class="inline-flex items-center gap-2 ml-2">
                             @csrf
-                            <input type="file" name="file" accept=".xlsx,.xls,.csv" required id="import-file-input" class="hidden" onchange="document.getElementById('import-form').submit();">
-                            <button type="button" onclick="document.getElementById('import-file-input').click();" class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-md hover:bg-gray-800">
-                                Importer
-                            </button>
+                            <input type="file" name="fichier" accept=".xlsx,.xls,.csv" required class="text-sm text-gray-700 border border-gray-300 rounded-md px-2 py-1">
+                            <button type="submit" class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-md hover:bg-gray-800">ð¤ Importer</button>
                         </form>
-                            </button>
-                        </form>
-    </button>
-</form>
                         <a href="{{ route('etudiants.export.csv') }}" class="px-3 py-1 bg-gray-800 text-white text-sm rounded hover:bg-gray-700">
                             Exporter CSV
                         </a>
@@ -94,7 +88,7 @@
                                             Matricule
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nom prénom (FR)
+                                            Nom prÃ©nom (FR)
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Groupe
@@ -128,7 +122,7 @@
                                                     @method('DELETE')
                                                     <button type="submit"
                                                             class="text-red-600 hover:text-red-900"
-                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.');">
+                                                            onclick="return confirm('Ãtes-vous sÃ»r de vouloir supprimer cet Ã©tudiant ? Cette action est irrÃ©versible.');">
                                                         Supprimer
                                                     </button>
                                                 </form>
@@ -137,7 +131,7 @@
                                     @empty
                                         <tr>
                                             <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
-                                                Aucun étudiant trouvé.
+                                                Aucun Ã©tudiant trouvÃ©.
                                             </td>
                                         </tr>
                                     @endforelse

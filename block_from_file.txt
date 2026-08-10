@@ -1,0 +1,5 @@
+                        <form method="POST" action="{{ route('etudiants.importer') }}" enctype="multipart/form-data" class="inline-flex items-center gap-2 ml-2">
+                            @csrf
+                            <input type="file" name="fichier" accept=".xlsx,.xls,.csv" required class="text-sm text-gray-700 border border-gray-300 rounded-md px-2 py-1">
+                            <button type="submit" class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-md hover:bg-gray-800">📤 Importer</button>
+                        </form>

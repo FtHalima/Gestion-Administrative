@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <title>Relevé de notes</title>
     <style>
         body {
-            font-family: "DejaVu Sans", "Arial Unicode MS", "Amiri", sans-serif;
+            font-family: "DejaVu Sans", "Amiri", "Arial Unicode MS", sans-serif;
             font-size: 12pt;
             margin: 20px;
             color: #000;
-        }
-        .rtl {
-            direction: rtl;
-            unicode-bidi: bidi-override;
-            text-align: right;
         }
         h1, h2 {
             text-align: center;
@@ -64,10 +59,14 @@
             font-size: 10pt;
             color: #555;
         }
+        .arabic-cell {
+            direction: rtl;
+            unicode-bidi: bidi-override;
+        }
     </style>
 </head>
 <body>
-    <div class="rtl">
+    <div>
         <div class="header">
             <h1 class="header-title">RELEVÉ DE NOTES</h1>
             <div class="header-subtitle">Semestre : {{ $semestre->nom }}</div>
@@ -91,10 +90,7 @@
                 <table class="notes-table">
                     <thead>
                         <tr>
-                            <th>Code Module</th>
-                            <th>Nom du Module</th>
-                            <th>Note Contrôle</th>
-                            <th>Note Examen</th>
+                            <th>Nom du module</th>
                             <th>Moyenne</th>
                             <th>Statut</th>
                         </tr>
@@ -102,10 +98,7 @@
                     <tbody>
                         @foreach($notesModules as $note)
                             <tr>
-                                <td>{{ $note->module->code_module }}</td>
-                                <td style="direction:rtl; unicode-bidi:bidi-override;">{{ $note->module->nom_module }}</td>
-                                <td>{{ number_format($note->note_controle, 2) }}</td>
-                                <td>{{ number_format($note->note_exam, 2) }}</td>
+                                <td class="arabic-cell">{{ $note->module->nom_module }}</td>
                                 <td>{{ number_format($note->moyenne, 2) }}</td>
                                 <td>{{ $note->statut }}</td>
                             </tr>
@@ -120,69 +113,6 @@
         <div class="footer">
             Document généré le {{ now()->format('d/m/Y H:i') }}
         </div>
-    </div>
-</body>
-</html>
-<body>
-    <div class="header">
-        <h1 class="header-title">RELEVÉ DE NOTES</h1>
-        <div class="header-subtitle">Semestre : {{ $semestre->nom }}</div>
-    </div>
-
-    <div class="student-info">
-        <table class="info-table">
-            <tr>
-                <th>Nom complet</th>
-                <td>{{ $etudiant->nom_prenom_francais }}</td>
-            </tr>
-            <tr>
-                <th>PPR</th>
-                <td>{{ $etudiant->ppr }}</td>
-            </tr>
-            <tr>
-                <th>CIN</th>
-                <td>{{ $etudiant->cin }}</td>
-            </tr>
-            <tr>
-                <th>Matricule</th>
-                <td>{{ $etudiant->matricule }}</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="notes-section">
-        @if($notesModules->isNotEmpty())
-            <table class="notes-table">
-                <thead>
-                    <tr>
-                        <th>Code Module</th>
-                        <th>Nom du Module</th>
-                        <th>Note Contrôle</th>
-                        <th>Note Examen</th>
-                        <th>Moyenne</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($notesModules as $note)
-                        <tr>
-                            <td>{{ $note->module->code_module }}</td>
-                            <td style="direction:rtl; unicode-bidi:bidi-override;">{{ $note->module->nom_module }}</td>
-                            <td>{{ number_format($note->note_controle, 2) }}</td>
-                            <td>{{ number_format($note->note_exam, 2) }}</td>
-                            <td>{{ number_format($note->moyenne, 2) }}</td>
-                            <td>{{ $note->statut }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <p class="text-center">Aucune note enregistrée pour cet étudiant ce semestre.</p>
-        @endif
-    </div>
-
-    <div class="footer">
-        Document généré le {{ now()->format('d/m/Y H:i') }}
     </div>
 </body>
 </html>

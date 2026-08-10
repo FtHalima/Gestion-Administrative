@@ -74,7 +74,7 @@ class RapportController extends Controller
             ->setOptions([
                 'isHtml5ParserEnabled' => true,
                 'isRemoteEnabled' => true,
-                'defaultFont' => 'DejaVu Sans',
+                'defaultFont' => 'Amiri',
                 'fontDir' => base_path('vendor/dompdf/dompdf/lib/fonts'),
                 'fontHeightRatio' => 1.1,
             ])

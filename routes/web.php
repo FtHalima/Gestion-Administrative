@@ -55,6 +55,7 @@ Route::middleware(['auth', 'role:administration'])->group(function () {
         ->parameters(['groupes' => 'groupe']);
     Route::resource('etudiants', App\Http\Controllers\EtudiantController::class)
         ->parameters(['etudiants' => 'etudiant']);
+    Route::post('etudiants/importer', [App\Http\Controllers\EtudiantController::class, 'importStore'])->name('etudiants.importer');
 
     // Import / Export
     Route::get('etudiants/import', [App\Http\Controllers\EtudiantController::class, 'importForm'])

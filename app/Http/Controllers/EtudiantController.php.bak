@@ -10,7 +10,9 @@ use App\Models\NoteSemestre;
 use App\Models\NoteMemoire;
 use App\Models\NoteStage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use SplFileObject;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class EtudiantController extends Controller
@@ -223,42 +225,20 @@ class EtudiantController extends Controller
         $path = $request->file->getRealPath();
         $object = new SplFileObject($path);
         $object->setFlags(SplFileObject::READ_CSV);
-        $object->setCsvControl(';'); // CSV semicolon-separated
+        $object->setCsvControl(';'); // CSV comma-separated
 
         $headers = null;
         $created = 0;
-        $lineNumber = 0;
 
         foreach ($object as $row) {
-            $lineNumber++;
-
-            // Ignore completely empty rows (all fields empty after trim)
-            if (array_filter($row, fn($val) => trim($val) !== '') === []) {
-                \Log::warning('Import CSV ligne '.$lineNumber.' REJETÉE : ligne entièrement vide');
-                continue;
-            }
-
             if (is_null($headers)) {
-                // Remove UTF-8 BOM if present
-                if (!empty($row[0]) && (substr($row[0], 0, 3) === "\xEF\xBB\xBF")) {
-                    $row[0] = substr($row[0], 3);
-                }
                 $headers = $row;
                 \Log::info('Import CSV headers reçus:', $headers ?? []);
-                \Log::info('Header count: '.count($headers));
-                continue;
-            }
-
-            \Log::info('Line '.$lineNumber.': Row count: '.count($row).' Headers count: '.count($headers));
-
-            if (count($headers) !== count($row)) {
-                \Log::warning('Import CSV ligne '.$lineNumber.' REJETÉE : nombre de colonnes mismatch - Headers: '.count($headers).' Values: '.count($row).' Row data: '.json_encode($row));
                 continue;
             }
 
             $data = array_combine($headers, $row);
             if (!$data) {
-                \Log::warning('Import CSV ligne '.$lineNumber.' REJETÉE : array_combine returned false');
                 continue;
             }
 
@@ -266,15 +246,10 @@ class EtudiantController extends Controller
             $data = array_map('trim', $data);
             $keys   = array_change_key_case(array_keys($data), CASE_LOWER);
             $data   = array_combine($keys, array_values($data));
-
             \Log::info('Import CSV ligne traitée:', $data ?? []);
 
             // Required fields
             if (empty($data['ppr']) || empty($data['nom_prenom_francais'])) {
-                $missing = [];
-                if (empty($data['ppr'])) $missing[] = 'ppr';
-                if (empty($data['nom_prenom_francais'])) $missing[] = 'nom_prenom_francais';
-                \Log::warning('Import CSV ligne '.$lineNumber.' REJETÉE : champ obligatoire '.implode(' ou ', $missing).' manquant');
                 continue;
             }
 
@@ -285,12 +260,6 @@ class EtudiantController extends Controller
             } elseif (!empty($data['groupe'])) {
                 $groupe = Groupe::where('nom_groupe', $data['groupe'])->first();
                 $groupeId = $groupe ? $groupe->id : null;
-            }
-
-            // Optional: log if groupe not found but not required? We'll log as warning if groupe expected but not found and groupe column not empty.
-            if (!empty($data['groupe']) && is_null($groupeId)) {
-                \Log::warning('Import CSV ligne '.$lineNumber.' REJETÉE : groupe introuvable');
-                continue;
             }
 
             $attributes = [
@@ -345,17 +314,32 @@ class EtudiantController extends Controller
         return redirect()->route('etudiants.index')
             ->with('success', "$created étudiant(s) importé(s) avec succès.");
     }
-            Etudiant::updateOrCreate(['ppr' => $attributes['ppr']], $attributes);
-            $created++;
-        }
 
-        if ($created === 0) {
-            return back()->with('error', 'Aucun étudiant valide n’a été trouvé dans le fichier.');
-        }
+    /**
+     * Export CSV of all students.
+     */
+    public function exportCsv(Request $request)
+    {
+        $etudiants = Etudiant::with('groupe')->get();
 
-        return redirect()->route('etudiants.index')
-            ->with('success', "$created étudiant(s) importé(s) avec succès.");
-    }
+        $filename = 'etudiants_' . now()->format('Y-m-d_His') . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma'              => 'no-cache',
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+        ];
+
+        $callback = function () use ($etudiants) {
+            $handle = fopen('php://output', 'w');
+            // UTF-8 BOM for Excel
+            fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            // Header (semicolon = French separator)
+            fputcsv($handle, [
+                'PPR',
+                'Nom (FR)',
                 'Nom (AR)',
                 'Genre',
                 'Date Naissance',
@@ -442,4 +426,7 @@ class EtudiantController extends Controller
 
         return new StreamedResponse($callback, 200, $headers);
     }
+    /**
+     * Import students from Excel or CSV file.
+     */
 }
