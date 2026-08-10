@@ -20,14 +20,16 @@ class NoteModuleController extends Controller
      */
     public function index()
     {
-        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->where('statut', '!=', 'terminé')->orderBy('nom')->get();
         $semestres = Semestre::all();
         if (auth()->user()->role === 'enseignant') {
             $modules = Module::where('professeur_id', auth()->id())->orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         } else {
             $modules = Module::orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         }
-        $groupes = Groupe::all();
+        // Filter groups by selected academic year if provided
+        $anneeIdFiltre = request()->input('annee_universitaire_id');
+        $groupes = $anneeIdFiltre ? Groupe::where('annee_universitaire_id', $anneeIdFiltre)->get() : Groupe::all();
 
         return view('note_modules.index', compact(
             'annees',
@@ -68,14 +70,16 @@ class NoteModuleController extends Controller
         }
 
         // Load filter lists for the view
-        $annees = AnneeUniversitaire::withoutGlobalScopes()->get();
+        $annees = AnneeUniversitaire::withoutGlobalScopes()->where('statut', '!=', 'terminé')->orderBy('nom')->get();
         $semestres = Semestre::all();
         if (auth()->user()->role === 'enseignant') {
             $modules = Module::where('professeur_id', auth()->id())->orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         } else {
             $modules = Module::orderByRaw('CAST(code_module AS UNSIGNED) ASC')->get();
         }
-        $groupes = Groupe::all();
+        // Filter groups by selected academic year if provided
+        $anneeIdFiltre = $request->input('annee_universitaire_id');
+        $groupes = $anneeIdFiltre ? Groupe::where('annee_universitaire_id', $anneeIdFiltre)->get() : Groupe::all();
 
         // If no group selected, show empty lists
         if (!$groupeId) {
@@ -95,8 +99,14 @@ class NoteModuleController extends Controller
             ));
         }
 
-        // Get students of the selected group
-        $etudiants = Etudiant::where('groupe_id', $groupeId)->get();
+        // Get students of the selected group, ensuring they belong to the selected academic year
+        $etudiants = Etudiant::where('groupe_id', $groupeId)
+            ->when($anneeId, function ($query) use ($anneeId) {
+                return $query->whereHas('groupe', function ($q) use ($anneeId) {
+                    $q->where('annee_universitaire_id', $anneeId);
+                });
+            })
+            ->get();
 
         // Fetch existing module notes matching the filters
         $notes = collect();
@@ -149,8 +159,13 @@ class NoteModuleController extends Controller
             }
         }
 
-        // Get the student list again to iterate over only those in the selected group
+        // Get the student list again to iterate over only those in the selected group, ensuring they belong to the selected academic year
         $etudiants = Etudiant::where('groupe_id', $request->groupe_id)
+            ->when($request->annee_universitaire_id, function ($query) use ($request) {
+                return $query->whereHas('groupe', function ($q) use ($request) {
+                    $q->where('annee_universitaire_id', $request->annee_universitaire_id);
+                });
+            })
             ->pluck('ppr') // we only need the PPRs for iteration
             ->toArray();
 
@@ -219,8 +234,14 @@ class NoteModuleController extends Controller
         $moduleId = (int) $request->input('module_id');
         $groupeId = (int) $request->input('groupe_id');
 
-        // Fetch students of the selected group
-        $etudiants = Etudiant::where('groupe_id', $groupeId)->get();
+        // Fetch students of the selected group, ensuring they belong to the selected academic year
+        $etudiants = Etudiant::where('groupe_id', $groupeId)
+            ->when($anneeId, function ($query) use ($anneeId) {
+                return $query->whereHas('groupe', function ($q) use ($anneeId) {
+                    $q->where('annee_universitaire_id', $anneeId);
+                });
+            })
+            ->get();
 
         // Fetch their notes for the selected period/module
         $notes = NoteModule::whereIn('etudiant_ppr', $etudiants->pluck('ppr'))
