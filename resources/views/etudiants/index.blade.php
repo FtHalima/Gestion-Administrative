@@ -21,66 +21,73 @@
                         </div>
                     @endif
 
-                    <!-- Filter form -->
-                    <form method="GET" action="{{ route('etudiants.index') }}" class="mb-6">
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-6">
-                            <div>
-                                <label for="groupe_id" class="block text-sm font-medium text-gray-700">Groupe</label>
-                                <select id="groupe_id" name="groupe_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option value="">-- Tous les groupes --</option>
-                                    @foreach ($groupes as $groupe)
-                                        <option value="{{ $groupe->id }}" {{ request()->get('groupe_id') == $groupe->id ? 'selected' : '' }}>
-                                            {{ $groupe->nom_groupe }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                    <!-- Filter card -->
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="px-6 py-4">
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <h3 class="text-lg font-medium text-gray-900">Filtres</h3>
                             </div>
-
-                            <div>
-                                <label for="annee_id" class="block text-sm font-medium text-gray-700">Année universitaire</label>
-                                <select id="annee_id" name="annee_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option value="">-- Toutes les années --</option>
-                                    @foreach ($annees as $annee)
-                                        <option value="{{ $annee->id }}" {{ request()->get('annee_id') == $annee->id ? 'selected' : '' }}>
-                                            {{ $annee->nom }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div>
-                                <label for="search" class="block text-sm font-medium text-gray-700">Recherche (nom, prénom, PPR, CIN, matricule)</label>
-                                <input id="search" type="text" name="search"
-                                       value="{{ request()->get('search') }}"
-                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       placeholder="Nom, prénom, PPR, CIN ou matricule">
-                            </div>
-
-                            <div>
-                                <label for="sort" class="block text-sm font-medium text-gray-700">Trier par</label>
-                                <select id="sort" name="sort"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option value="nom_asc" {{ request()->get('sort', 'nom_asc') == 'nom_asc' ? 'selected' : '' }}>Nom (A → Z)</option>
-                                    <option value="nom_desc" {{ request()->get('sort', 'nom_asc') == 'nom_desc' ? 'selected' : '' }}>Nom (Z → A)</option>
-                                    <option value="ppr_asc" {{ request()->get('sort', 'nom_asc') == 'ppr_asc' ? 'selected' : '' }}>PPR (croissant)</option>
-                                    <option value="ppr_desc" {{ request()->get('sort', 'nom_asc') == 'ppr_desc' ? 'selected' : '' }}>PPR (décroissant)</option>
-                                </select>
-                            </div>
-
-                            <div class="flex items-end space-x-3">
-                                <button type="submit"
-                                        class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus-ring-offset-2 focus:ring-indigo-500">
-                                    Filtrer
-                                </button>
-                                <a href="{{ route('etudiants.index') }}"
-                                   class="mt-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                    Réinitialiser
-                                </a>
-                            </div>
+                            <form method="GET" action="{{ route('etudiants.index') }}" class="mt-4">
+                                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                                    <!-- Recherche -->
+                                    <div>
+                                        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
+                                        <input id="search" type="text" name="search"
+                                               value="{{ request()->get('search') }}"
+                                               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                               placeholder="Nom, prénom, PPR, CIN ou matricule">
+                                    </div>
+                                    <!-- Groupe -->
+                                    <div>
+                                        <label for="groupe_id" class="block text-sm font-medium text-gray-700 mb-1">Groupe</label>
+                                        <select id="groupe_id" name="groupe_id"
+                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <option value="">-- Tous les groupes --</option>
+                                            @foreach ($groupes as $groupe)
+                                                <option value="{{ $groupe->id }}" {{ request()->get('groupe_id') == $groupe->id ? 'selected' : '' }}>
+                                                    {{ $groupe->nom_groupe }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <!-- Année universitaire -->
+                                    <div>
+                                        <label for="annee_id" class="block text-sm font-medium text-gray-700 mb-1">Année universitaire</label>
+                                        <select id="annee_id" name="annee_id"
+                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <option value="">-- Toutes les années --</option>
+                                            @foreach ($annees as $annee)
+                                                <option value="{{ $annee->id }}" {{ request()->get('annee_id') == $annee->id ? 'selected' : '' }}>
+                                                    {{ $annee->nom }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <!-- Trier par -->
+                                    <div>
+                                        <label for="sort" class="block text-sm font-medium text-gray-700 mb-1">Trier par</label>
+                                        <select id="sort" name="sort"
+                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <option value="nom_asc" {{ request()->get('sort', 'nom_asc') == 'nom_asc' ? 'selected' : '' }}>Nom (A → Z)</option>
+                                            <option value="nom_desc" {{ request()->get('sort', 'nom_asc') == 'nom_desc' ? 'selected' : '' }}>Nom (Z → A)</option>
+                                            <option value="ppr_asc" {{ request()->get('sort', 'nom_asc') == 'ppr_asc' ? 'selected' : '' }}>PPR (croissant)</option>
+                                            <option value="ppr_desc" {{ request()->get('sort', 'nom_asc') == 'ppr_desc' ? 'selected' : '' }}>PPR (décroissant)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex justify-end space-x-3">
+                                    <button type="submit"
+                                            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus-ring-offset-2 focus:ring-indigo-500">
+                                        Filtrer
+                                    </button>
+                                    <a href="{{ route('etudiants.index') }}"
+                                       class="text-sm font-medium text-gray-500 hover:text-gray-700">
+                                        Réinitialiser
+                                    </a>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
 
                     <!-- Buttons: New student, Export -->
                     <div class="mb-4 flex items-center gap-3">
