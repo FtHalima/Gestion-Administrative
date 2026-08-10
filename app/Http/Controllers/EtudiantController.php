@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Etudiant;
 use App\Models\Groupe;
+use App\Models\AnneeUniversitaire;
 use App\Models\NoteExamen;
 use App\Models\NoteModule;
 use App\Models\NoteSemestre;
@@ -12,6 +13,8 @@ use App\Models\NoteStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Log;
+use SplFileObject;
 
 class EtudiantController extends Controller
 {
@@ -27,20 +30,49 @@ class EtudiantController extends Controller
             $query->where('groupe_id', $request->get('groupe_id'));
         }
 
-        // Search by nom_prenom_francais, matricule, cin
+        // Filter by année universitaire
+        if ($request->filled('annee_id')) {
+            $query->whereHas('groupe.anneeUniversitaire', function ($q) use ($request) {
+                $q->where('annees_universitaires.id', $request->annee_id);
+            });
+        }
+
+        // Search by nom_prenom_francais, matricule, cin, ppr
         if ($request->filled('search')) {
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
                 $q->where('nom_prenom_francais', 'like', "%{$search}%")
                     ->orWhere('matricule', 'like', "%{$search}%")
-                    ->orWhere('cin', 'like', "%{$search}%");
+                    ->orWhere('cin', 'like', "%{$search}%")
+                    ->orWhere('ppr', 'like', "%{$search}%");
             });
         }
 
-        $etudiants = $query->get();
-        $groupes = Groupe::all();
+        // Sorting
+        $sort = $request->input('sort', 'nom_asc');
+        switch ($sort) {
+            case 'nom_asc':
+                $query->orderBy('nom_prenom_francais', 'asc');
+                break;
+            case 'nom_desc':
+                $query->orderBy('nom_prenom_francais', 'desc');
+                break;
+            case 'ppr_asc':
+                $query->orderBy('ppr', 'asc');
+                break;
+            case 'ppr_desc':
+                $query->orderBy('ppr', 'desc');
+                break;
+            default:
+                $query->orderBy('nom_prenom_francais', 'asc');
+        }
 
-        return view('etudiants.index', compact('etudiants', 'groupes'));
+        $etudiants = $query->paginate(10)->appends($request->except('page'));
+
+        $groupes = Groupe::all();
+        $annees = AnneeUniversitaire::orderBy('nom')->get();
+
+        return view('etudiants.index', compact('etudiants', 'groupes', 'annees', 'request', 'sort'));
     }
 
     /**
@@ -345,18 +377,35 @@ class EtudiantController extends Controller
         return redirect()->route('etudiants.index')
             ->with('success', "$created étudiant(s) importé(s) avec succès.");
     }
-            Etudiant::updateOrCreate(['ppr' => $attributes['ppr']], $attributes);
-            $created++;
-        }
 
-        if ($created === 0) {
-            return back()->with('error', 'Aucun étudiant valide n’a été trouvé dans le fichier.');
-        }
+    /**
+     * Export CSV of all students.
+     */
+    public function exportCsv(Request $request)
+    {
+        $etudiants = Etudiant::with('groupe')->get();
 
-        return redirect()->route('etudiants.index')
-            ->with('success', "$created étudiant(s) importé(s) avec succès.");
-    }
+        $filename = 'etudiants_' . now()->format('Y-m-d_His') . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma'              => 'no-cache',
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+        ];
+
+        $callback = function () use ($etudiants) {
+            $handle = fopen('php://output', 'w');
+            // UTF-8 BOM for Excel
+            fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            // Header (semicolon = French separator)
+            fputcsv($handle, [
+                'PPR',
+                'Nom (FR)',
                 'Nom (AR)',
+                'Cin',
+                'Matricule',
                 'Genre',
                 'Date Naissance',
                 'Lieu Naissance',
@@ -399,6 +448,8 @@ class EtudiantController extends Controller
                     $et->ppr,
                     $et->nom_prenom_francais,
                     $et->nom_prenom_arabe ?? '',
+                    $et->cin ?? '',
+                    $et->matricule ?? '',
                     $et->genre ?? '',
                     $et->date_naissance ? $et->date_naissance->format('Y-m-d') : '',
                     $et->lieu_naissance ?? '',
