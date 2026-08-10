@@ -16,7 +16,7 @@
     </head>
     <body class="font-sans antialiased flex overflow-x-hidden">
         <!-- Sidebar -->
-        <aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#1e2a5e] text-white z-20">
+        <aside class="fixed left-0 top-0 bottom-0 w-[216px] bg-[#00236F] text-white z-20">
             <div class="flex flex-col h-full px-3 pt-4">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3 mb-6">
@@ -29,7 +29,7 @@
                 <nav class="mt-2 space-y-1 flex-1">
                     <!-- Dashboard -->
                     <a href="{{ route('dashboard') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('dashboard') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-[#EFF6FF] hover:text-[#00236F] transition-colors text-[#B6C4FF] {{ request()->routeIs('dashboard') ? 'border-l-4 border-white bg-[#EFF6FF] text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h10a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 012-2v-9a2 2 0 012-2zm0 0v9a2 2 0 002 2h10a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
                         </svg>
@@ -41,7 +41,7 @@
                         @if (auth()->user()->role === 'administration')
                             <!-- Utilisateurs -->
                             <a href="{{ route('utilisateurs.index') }}"
-                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('utilisateurs.index') ? 'bg-white/20' : '' }}">
+                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('utilisateurs.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                                 <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 012-2h11zm0 0h-1a4 3 0 00-5 3v1a1 1 0 001 2h1a1 1 0 011 1v2a1 1 0 01-1 1H6a1 1 0 00-1 1v2a1 1 0 011 1h1a1 1 0 001-1v-1a3 3 0 013-3h11z" />
                                 </svg>
@@ -50,7 +50,7 @@
 
                             <!-- Étudiants -->
                             <a href="{{ route('etudiants.index') }}"
-                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('etudiants.index') ? 'bg-white/20' : '' }}">
+                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('etudiants.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                                 <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v1.18C7.64 4.36 6 6.93 6 10v5a2 2 0 002 2h6z" />
                                 </svg>
@@ -61,7 +61,7 @@
 
                     <!-- Common links (visible to all authenticated users) -->
                     <a href="{{ route('note-examens.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-examens.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-examens.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 0a3 3 0 100-6m-6 6a3 3 0 100-6m6 6a3 3 0 100-6" />
                         </svg>
@@ -69,7 +69,7 @@
                     </a>
 
                     <a href="{{ route('note-modules.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-modules.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-modules.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 0a3 3 0 100-6m-6 6a3 3 0 100-6m6 6a3 3 0 100-6" />
                         </svg>
@@ -77,7 +77,7 @@
                     </a>
 
                     <a href="{{ route('note-stages.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-stages.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-stages.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                         </svg>
@@ -85,7 +85,7 @@
                     </a>
 
                     <a href="{{ route('note-memoires.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-memoires.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-memoires.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                         </svg>
@@ -93,7 +93,7 @@
                     </a>
 
                     <a href="{{ route('note-semestres.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('note-semestres.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-semestres.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                         </svg>
@@ -102,7 +102,7 @@
 
                     <!-- Imprimer les rapports -->
                     <a href="{{ route('rapports.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('rapports.index') ? 'bg-white/20' : '' }}">
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('rapports.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H5a2 2 0 00-2 2v4a2 2 0 002 2h4l2 2h2l2-2h2a2 2 0 002-2V7a2 2 0 002-2V5z" />
                         </svg>
@@ -113,7 +113,7 @@
                     @auth
                         @if (auth()->user()->role === 'administration')
                             <a href="{{ route('parametres.index') }}"
-                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors {{ request()->routeIs('parametres.index') ? 'bg-white/20' : '' }}">
+                               class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('parametres.index') ? 'border-l-4 border-white bg-[rgba(0,35,111,0.2)] text-white font-bold' : '' }}">
                                 <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
                                 </svg>
@@ -153,9 +153,9 @@
         </aside>
 
         <!-- Main Content -->
-        <div class="ml-64 min-h-screen bg-gray-100 flex flex-col min-w-0">
+        <div class="ml-[216px] min-h-screen bg-[#F5F7FC] flex flex-col min-w-0">
             <!-- Header (white bar) -->
-            <header class="bg-white shadow">
+            <header class="bg-white shadow border-b border-[#D5DBE8]">
                 <div class="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                     <!-- Title from slot -->
                     @isset($header)
@@ -165,6 +165,18 @@
                     @endisset
                     <!-- Right side: notifications, settings, avatar -->
                     <div class="flex items-center space-x-4">
+                        <!-- Search -->
+                        <div class="relative w-[200px]">
+                            <input type="search"
+                                   placeholder="Rechercher..."
+                                   class="pl-8 pr-2 py-1 bg-[#EFF6FF] border-[#C5C5D3] rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                            <svg class="absolute left-2 top-1/2 -mt-1.5 h-4 w-4 text-gray-400"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 105.636 18.364m12.728-5.636a4.5 4.5 0 01-6.364 6.364" />
+                            </svg>
+                        </div>
+
                         <!-- Notification bell -->
                         <svg class="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors"
                              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -180,7 +192,7 @@
                         </svg>
 
                         <!-- Avatar with initials -->
-                        <div class="h-8 w-8 rounded-full bg-[#1e2a5e] text-white flex items-center justify-center text-xs font-semibold">
+                        <div class="h-8 w-8 rounded-full bg-[#00236F] text-white flex items-center justify-center text-xs font-semibold">
                             {{ strtoupper(substr(Auth::user()->prenom, 0, 1) . substr(Auth::user()->nom, 0, 1)) }}
                         </div>
                     </div>
