@@ -76,6 +76,14 @@
                         Notes de modules
                     </a>
 
+                    <a href="{{ route('note-semestres.index') }}"
+                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-semestres.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
+                        <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
+                        </svg>
+                        Notes de semestres
+                    </a>
+
                     <a href="{{ route('note-stages.index') }}"
                        class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-stages.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,13 +100,7 @@
                         Notes de mémoires
                     </a>
 
-                    <a href="{{ route('note-semestres.index') }}"
-                       class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-[#B6C4FF] {{ request()->routeIs('note-semestres.index') ? 'bg-[rgba(30,58,138,0.2)] border-l-4 border-white text-white font-bold' : '' }}">
-                        <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
-                        </svg>
-                        Notes de semestres
-                    </a>
+                    
 
                     <!-- Imprimer les rapports -->
                     <a href="{{ route('rapports.index') }}"

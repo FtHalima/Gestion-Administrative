@@ -1,188 +1,183 @@
 <x-app-layout>
     <slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Liste des étudiants
-        </h2>
+        <h2 class="font-semibold text-xl text-[#0F172A]">Gestion des étudiants</h2>
     </slot>
 
-    <div class="py-12">
-        <div class="w-full sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    @if (session('success'))
-                        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+    <div class="bg-[#F5F7FC] min-h-[calc(100vh-10rem)] p-6">
+        <div class="mx-auto max-w-7xl">
+            <!-- Success/Error messages -->
+            @if (session('success'))
+                <div class="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-green-800">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-                    @if (session('error'))
-                        <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
-                            {{ session('error') }}
-                        </div>
-                    @endif
+            @if (session('error'))
+                <div class="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-                    <!-- Filter card -->
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="px-6 py-4">
-                            <div class="flex justify-between items-center border-b pb-2">
-                                <h3 class="text-lg font-medium text-gray-900">Filtres</h3>
+            <!-- Filter Card -->
+            <div class="bg-white border border-[#D5DBE8] rounded-xl">
+                <div class="px-6 py-4">
+                    <div class="mb-4 flex justify-between items-center border-b pb-2">
+                        <h3 class="text-base font-semibold text-[#0F172A]">Filtres</h3>
+                    </div>
+                    <form method="GET" action="{{ route('etudiants.index') }}" class="mt-4">
+                        <div class="gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                            <!-- Recherche -->
+                            <div>
+                                <label for="search" class="block text-sm font-medium text-[#0F172A] mb-1">Recherche</label>
+                                <input id="search" type="text" name="search"
+                                       value="{{ request()->get('search') }}"
+                                       class="w-full rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]"
+                                       placeholder="Nom, prénom, PPR, CIN ou matricule">
                             </div>
-                            <form method="GET" action="{{ route('etudiants.index') }}" class="mt-4">
-                                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                                    <!-- Recherche -->
-                                    <div>
-                                        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
-                                        <input id="search" type="text" name="search"
-                                               value="{{ request()->get('search') }}"
-                                               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                               placeholder="Nom, prénom, PPR, CIN ou matricule">
-                                    </div>
-                                    <!-- Groupe -->
-                                    <div>
-                                        <label for="groupe_id" class="block text-sm font-medium text-gray-700 mb-1">Groupe</label>
-                                        <select id="groupe_id" name="groupe_id"
-                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                            <option value="">-- Tous les groupes --</option>
-                                            @foreach ($groupes as $groupe)
-                                                <option value="{{ $groupe->id }}" {{ request()->get('groupe_id') == $groupe->id ? 'selected' : '' }}>
-                                                    {{ $groupe->nom_groupe }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <!-- Année universitaire -->
-                                    <div>
-                                        <label for="annee_id" class="block text-sm font-medium text-gray-700 mb-1">Année universitaire</label>
-                                        <select id="annee_id" name="annee_id"
-                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                            <option value="">-- Toutes les années --</option>
-                                            @foreach ($annees as $annee)
-                                                <option value="{{ $annee->id }}" {{ request()->get('annee_id') == $annee->id ? 'selected' : '' }}>
-                                                    {{ $annee->nom }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <!-- Trier par -->
-                                    <div>
-                                        <label for="sort" class="block text-sm font-medium text-gray-700 mb-1">Trier par</label>
-                                        <select id="sort" name="sort"
-                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                            <option value="nom_asc" {{ request()->get('sort', 'nom_asc') == 'nom_asc' ? 'selected' : '' }}>Nom (A → Z)</option>
-                                            <option value="nom_desc" {{ request()->get('sort', 'nom_asc') == 'nom_desc' ? 'selected' : '' }}>Nom (Z → A)</option>
-                                            <option value="ppr_asc" {{ request()->get('sort', 'nom_asc') == 'ppr_asc' ? 'selected' : '' }}>PPR (croissant)</option>
-                                            <option value="ppr_desc" {{ request()->get('sort', 'nom_asc') == 'ppr_desc' ? 'selected' : '' }}>PPR (décroissant)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mt-4 flex justify-end space-x-3">
-                                    <button type="submit"
-                                            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus-ring-offset-2 focus:ring-indigo-500">
-                                        Filtrer
-                                    </button>
-                                    <a href="{{ route('etudiants.index') }}"
-                                       class="text-sm font-medium text-gray-500 hover:text-gray-700">
-                                        Réinitialiser
-                                    </a>
-                                </div>
-                            </form>
+                            <!-- Groupe -->
+                            <div>
+                                <label for="groupe_id" class="block text-sm font-medium text-[#0F172A] mb-1">Groupe</label>
+                                <select id="groupe_id" name="groupe_id"
+                                        class="w-full rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]">
+                                    <option value="">-- Tous les groupes --</option>
+                                    @foreach ($groupes as $groupe)
+                                        <option value="{{ $groupe->id }}" {{ request()->get('groupe_id') == $groupe->id ? 'selected' : '' }}>
+                                            {{ $groupe->nom_groupe }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- Année universitaire -->
+                            <div>
+                                <label for="annee_id" class="block text-sm font-medium text-[#0F172A] mb-1">Année universitaire</label>
+                                <select id="annee_id" name="annee_id"
+                                        class="w-full rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]">
+                                    <option value="">-- Toutes les années --</option>
+                                    @foreach ($annees as $annee)
+                                        <option value="{{ $annee->id }}" {{ request()->get('annee_id') == $annee->id ? 'selected' : '' }}>
+                                            {{ $annee->nom }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- Trier par -->
+                            <div>
+                                <label for="sort" class="block text-sm font-medium text-[#0F172A] mb-1">Trier par</label>
+                                <select id="sort" name="sort"
+                                        class="w-full rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]">
+                                    <option value="nom_asc" {{ request()->get('sort', 'nom_asc') == 'nom_asc' ? 'selected' : '' }}>Nom (A → Z)</option>
+                                    <option value="nom_desc" {{ request()->get('sort', 'nom_asc') == 'nom_desc' ? 'selected' : '' }}>Nom (Z → A)</option>
+                                    <option value="ppr_asc" {{ request()->get('sort', 'nom_asc') == 'ppr_asc' ? 'selected' : '' }}>PPR (croissant)</option>
+                                    <option value="ppr_desc" {{ request()->get('sort', 'nom_asc') == 'ppr_desc' ? 'selected' : '' }}>PPR (décroissant)</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Buttons: New student, Export -->
-                    <div class="mb-4 flex items-center gap-3">
-                        <a href="{{ route('etudiants.create') }}" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus-ring-offset-2 focus:ring-indigo-500">
-                            + Nouvel étudiant
-                        </a>
-                        <form method="POST" action="{{ route('etudiants.importer') }}" enctype="multipart/form-data" id="import-form" class="inline ml-2">
-                            @csrf
-                            <input type="file" name="file" accept=".xlsx,.xls,.csv" required id="import-file-input" class="hidden" onchange="document.getElementById('import-form').submit();">
-                            <button type="button" onclick="document.getElementById('import-file-input').click();" class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-md hover:bg-gray-800">
-                                Importer
+                        <div class="mt-4 flex justify-end space-x-3">
+                            <button type="submit"
+                                    class="bg-[#00236F] hover:bg-[#001B56] text-white rounded-lg px-4 py-2 font-semibold">
+                                Filtrer
                             </button>
-                        </form>
-                            </button>
-                        </form>
-    </button>
-</form>
-                        <a href="{{ route('etudiants.export.csv') }}" class="px-3 py-1 bg-gray-800 text-white text-sm rounded hover:bg-gray-700">
-                            Exporter CSV
-                        </a>
-                    </div>
+                            <a href="{{ route('etudiants.index') }}"
+                               class="text-sm font-medium text-[#64748B] hover:text-[#00236F]">
+                                Réinitialiser
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-                    <!-- Table -->
-                    <div class="p-6 bg-white border-b border-gray-200">
-                        <div class="overflow-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            PPR
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            CIN
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Matricule
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nom prénom (FR)
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Groupe
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Email
-                                        </th>
-                                        <th scope="col" class="relative px-6 py-3">
-                                            <span class="sr-only">Actions</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @forelse ($etudiants as $etudiant)
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $etudiant->ppr }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $etudiant->cin ?? '-' }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $etudiant->matricule ?? '-' }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $etudiant->nom_prenom_francais }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {{ $etudiant->groupe ? $etudiant->groupe->nom_groupe : '-' }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $etudiant->email ?? '-' }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <a href="{{ route('etudiants.edit', $etudiant->ppr) }}"
-                                                   class="text-indigo-600 hover:text-indigo-900 mr-3">
-                                                    Modifier
-                                                </a>
-                                                <form action="{{ route('etudiants.destroy', $etudiant->ppr) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="text-red-600 hover:text-red-900"
-                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.');">
-                                                        Supprimer
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
-                                                Aucun étudiant trouvé.
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="mt-4 flex justify-between items-center">
-                            <p class="text-sm text-gray-500">
-                                Affichage de {{ $etudiants->firstItem() }} à {{ $etudiants->lastItem() }} sur {{ $etudiants->total() }} résultats
-                            </p>
-                            {{ $etudiants->links() }}
-                        </div>
-                    </div>
+            <!-- Actions: New, Import, Export -->
+            <div class="flex flex-wrap items-center gap-3 mt-6">
+                <a href="{{ route('etudiants.create') }}"
+                   class="bg-[#00236F] hover:bg-[#001B56] text-white rounded-lg px-4 py-2 font-semibold">
+                    + Nouvel étudiant
+                </a>
+                <form method="POST" action="{{ route('etudiants.importer') }}" enctype="multipart/form-data" id="import-form" class="inline">
+                    @csrf
+                    <input type="file" name="file" accept=".xlsx,.xls,.csv" required id="import-file-input" class="hidden"
+                           onchange="document.getElementById('import-form').submit();">
+                    <button type="button" onclick="document.getElementById('import-file-input').click();"
+                            class="bg-white border border-[#D5DBE8] text-[#0F172A] rounded-lg px-4 py-2 hover:bg-[#EFF6FF]">
+                        Importer
+                    </button>
+                </form>
+                <a href="{{ route('etudiants.export.csv') }}"
+                   class="bg-white border border-[#D5DBE8] text-[#0F172A] rounded-lg px-4 py-2 hover:bg-[#EFF6FF]">
+                    Exporter CSV
+                </a>
+            </div>
+
+            <!-- Table Card -->
+            <div class="bg-white border border-[#D5DBE8] rounded-xl mt-6 overflow-hidden">
+                <div class="overflow-auto">
+                    <table class="min-w-full divide-y divide-[#D5DBE8]">
+                        <thead class="bg-[#F8FAFC]">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                    PPR
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                    CIN
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                    Matricule
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                    Nom prénom (FR)
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                    Groupe
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                    Email
+                                </th>
+                                <th scope="col" class="relative px-6 py-3">
+                                    <span class="sr-only">Actions</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-[#D5DBE8]">
+                            @forelse ($etudiants as $etudiant)
+                                <tr class="hover:bg-[#F8FAFC] transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-[#0F172A]">{{ $etudiant->ppr }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#64748B]">{{ $etudiant->cin ?? '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#64748B]">{{ $etudiant->matricule ?? '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#64748B]">{{ $etudiant->nom_prenom_francais }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#64748B]">
+                                        {{ $etudiant->groupe ? $etudiant->groupe->nom_groupe : '-' }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#64748B]">{{ $etudiant->email ?? '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="{{ route('etudiants.edit', $etudiant->ppr) }}"
+                                           class="text-[#00236F] hover:bg-[#EFF6FF] rounded-md px-2 py-1">
+                                            Modifier
+                                        </a>
+                                        <form action="{{ route('etudiants.destroy', $etudiant->ppr) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="text-red-600 hover:bg-red-50 rounded-md px-2 py-1"
+                                                    onclick="return confirm('�Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.');">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="px-6 py-4 text-center text-[#64748B]">
+                                        Aucun étudiant trouvé.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 flex justify-between items-center px-6">
+                    <p class="text-sm text-[#64748B]">
+                        Affichage de {{ $etudiants->firstItem() }} à {{ $etudiants->lastItem() }} sur {{ $etudiants->total() }} résultats
+                    </p>
+                    {{ $etudiants->links() }}
                 </div>
             </div>
         </div>
