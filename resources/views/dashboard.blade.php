@@ -73,7 +73,7 @@
                                 <p class="text-sm font-medium text-gray-900">
                                     Male : {{ $maleCount }} ({{ $malePercent }}%)
                                 </p>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                         <div>
                             <h3 class="text-lg font-medium text-gray-900 ">Accès rapide</h3>
                         </div>
-                        
+
                     </div>
                     <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         <!-- Saisir les notes -->

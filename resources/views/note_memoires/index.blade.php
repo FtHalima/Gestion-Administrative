@@ -13,7 +13,6 @@
     </slot>
 
     <div class="bg-[#F5F7FC] min-h-[calc(100vh-10rem)] p-6">
-        <div class="mx-auto max-w-7xl">
             <!-- Success message -->
             @if (session('success'))
                 <div class="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 flex items-center space-x-2 text-emerald-700">
@@ -100,7 +99,7 @@
                 <div class="bg-white border border-[#D5DBE8] rounded-xl shadow-sm mt-6">
                     <div class="px-6 py-4">
                         <div class="overflow-x-auto">
-                            <table class="min-w-full table-fixed divide-y divide-[#D5DBE8]">
+                            <table class="min-w-full table-fixed divide-y divide-gray-200">
                                 <thead class="bg-[#F8FAFC]">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider w-[60px] text-[#64748B]">
@@ -206,11 +205,11 @@
                 </div>
             @else
                 <!-- Empty state -->
-                <div class="mt-6 bg-white border border-[#D5DBE8] rounded-xl p-10 text-center">
+                <div class="mt-6 text-center">
                     <svg class="mx-auto h-12 w-12 text-gray-400 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3 3m0 0l3-3m-3 3V8m0 0a2 2 0 100-4 2 2 0 000 4zM5 13l3 3m0 0l3-3m-3 3V8m0 0a2 2 0 100-4 2 2 0 000 4z"/>
                     </svg>
-                    <p class="mt-2 text-sm text-[#64748B]">
+                    <p class="text-sm text-[#64748B]">
                         Aucun étudiant trouvé
                     </p>
                     <p class="mt-1 text-sm text-[#64748B]">
@@ -218,7 +217,6 @@
                     </p>
                 </div>
             @endif
-        </div>
     </div>
 
     <script>

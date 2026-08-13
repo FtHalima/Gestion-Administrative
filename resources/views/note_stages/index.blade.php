@@ -13,7 +13,6 @@
     </slot>
 
     <div class="bg-[#F5F7FC] min-h-[calc(100vh-10rem)] p-6">
-        <div class="mx-auto max-w-7xl">
             <!-- Success message -->
             @if (session('success'))
                 <div class="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-emerald-700 flex items-center space-x-2">
@@ -130,22 +129,22 @@
                                 <table class="min-w-full table-fixed divide-y divide-gray-200">
                                     <thead class="bg-[#F8FAFC]">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider w-[60px] text-[#64748B]">
                                                 PPR
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider w-[70px] text-[#64748B]">
                                                 CIN
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider w-[120px] text-[#0F172A]">
                                                 Nom complet
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider w-[200px] text-[#64748B]">
                                                 Établissement d'accueil
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider w-[180px] text-[#64748B]">
                                                 Tuteur académique
                                             </th>
-                                            <th scope="col" class="px-3 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-[90px]">
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider w-[80px] text-[#64748B]">
                                                 Note<br>(sur 20)
                                             </th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
@@ -163,11 +162,11 @@
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <input type="text" name="etablissements[{{ $etudiant->ppr }}]"
                                                            value="{{ $note ? $note->etablissement_accueil : '' }}"
-                                                           class="w-full rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]/20">
+                                                           class="w-full min-w-[280px] rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]/20">
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap pr-4">
+                                                <td class="px-6 py-4 whitespace-nowrap">
                                                     <select name="tuteurs[{{ $etudiant->ppr }}]"
-                                                            class="w-full rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]/20">
+                                                            class="w-full min-w-[220px] rounded-lg border border-[#D5DBE8] bg-white text-sm focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]/20">
                                                         <option value="">-- Sélectionner un tuteur --</option>
                                                         @foreach($enseignants as $ens)
                                                             <option value="{{ $ens->id }}"
@@ -181,13 +180,14 @@
                                                     <input type="number" name="notes[{{ $etudiant->ppr }}]"
                                                            min="0" max="20" step="0.25"
                                                            value="{{ $note ? $note->note : '' }}"
-                                                           class="w-[55px] h-10 px-2 text-center rounded-lg border border-[#D5DBE8] bg-white text-gray-900 focus:border-[#00236F] focus:ring-2 focus:ring-[#00236F]/20 focus:outline-none">
+                                                           class="w-[85px] h-10 px-2 text-center rounded-lg border border-[#D5DBE8] bg-white text-gray-900 focus:border-[#00236F] focus:ring-2 focus-ring-[#00236F]/20 focus:outline-none"
+                                                           data-ppr="{{ $etudiant->ppr }}">
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     @if(isset($note) && $note->fichier_url)
                                                         <div class="flex items-center space-x-1 text-sm text-[#00236F]">
                                                             <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m4 0H9m5 0V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h6"></path>
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m4 0H9m5 0V9a2 2 0 00-2-2H5a2 2 0 002 2v6a2 2 0 002 2h6"></path>
                                                             </svg>
                                                             Fichier actuel
                                                         </div>
@@ -228,6 +228,5 @@
                     </p>
                 </div>
             @endif
-        </div>
     </div>
 </x-app-layout>
