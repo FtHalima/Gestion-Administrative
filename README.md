@@ -1,58 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GESTAC - Système de Gestion Académique
+## Description
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+GESTAC est une application web de gestion administrative destinée aux établissements de formation.
+L'application permet de gérer l'ensemble du cycle académique : personnel enseignant en formation, paramétrage des sessions universitaires, et saisie des notes à travers cinq types d'évaluation (examens, modules, semestres, mémoires, stages), avec génération de relevés de notes au format PDF.
 
-## About Laravel
+## Stack technique
+- Framework : Laravel 13
+- Langage : PHP >= 8.4
+- Base de données : MySQL
+- Frontend : Blade + Tailwind CSS
+- Authentification : Laravel Breeze (adapté à une table utilisateurs personnalisée)
+- Génération PDF : DomPDF (barryvdh/laravel-dompdf)
+- Import/Export : traitement CSV natif PHP
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prérequis
+- PHP >= 8.4
+- Composer
+- MySQL >= 8.0
+- Node.js 
+- npm
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
+```
+# 1. Cloner le dépôt
+git clone https://github.com/FtHalima/Gestion-Administrative.git
+cd Gestion-Administrative
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# 2. Installer les dépendances PHP
+composer install
 
-## Learning Laravel
+# 3. Installer les dépendances JavaScript
+npm install
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# 4. Configurer l'environnement
+cp .env.example .env
+php artisan key:generate
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# 5. Configurer la base de données dans .env
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=gest_acade
+# DB_USERNAME=root
+# DB_PASSWORD=
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+# 6. Créer la base de données (vide) dans MySQL, puis lancer les migrations
+php artisan migrate
 
-## Agentic Development
+# 7. Créer un compte administrateur de test
+php artisan db:seed --class=UtilisateurSeeder
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+# 8. Lier le stockage public (nécessaire pour les fichiers uploadés)
+php artisan storage:link
 
-```bash
-composer require laravel/boost --dev
+# 9. Compiler les assets front-end
+npm run build
 
-php artisan boost:install
+# 10. Lancer le serveur de développement
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+L'application est ensuite accessible à l'adresse indiquée dans le terminal (généralement **http://127.0.0.1:8000)**.
 
-## Contributing
+## 🔑 Compte de test
+| Email | Mot de passe | 
+|-----------|-----------|
+| admin@gestac.test | password  | 
+| enseignant@test.com | password  | 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Fonctionnalités principales
 
-## Code of Conduct
+### Authentification et rôles
+- Connexion sécurisée avec deux rôles distincts : Administration et Enseignant
+- Inscription publique désactivée — seul un administrateur peut créer des comptes 
+- Accès restreint aux modules affectés pour les enseignants
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Gestion administrative
+- Gestion des utilisateurs (création, modification, suppression, réinitialisation de mot de passe)
+- Gestion des étudiants (fiche complète : identité, baccalauréat, licence, diplômes, carrière, affectation)
+- Import/export CSV des listes d'étudiants
 
-## Security Vulnerabilities
+### Paramétrage académique
+- Années universitaires
+- Semestres
+- Modules (avec affectation à un enseignant)
+- Groupes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Saisie des notes
+- Notes d'examen (Contrôle Continu / Examen)
+- Notes de module (calcul automatique : 25% contrôle + 75% examen)
+- Notes de semestre (moyenne calculée à partir des notes de module)
+- Notes de mémoire (moyenne soutenance/rapport pondérée à 50/50)
+- Notes de stage (avec upload de document justificatif)
+- Calcul automatique du statut (Validé / Racheter / Rattrapage) selon la moyenne
 
-## License
+### Rapports
+- Génération de relevés de notes semestriels au format PDF
+- Export CSV des notes par module
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Structure du projet
+```
+app/Http/Controllers/   → Logique métier (CRUD, saisie de notes, rapports)
+app/Models/              → Modèles Eloquent
+database/migrations/     → Structure de la base de données
+resources/views/         → Vues Blade organisées par module fonctionnel
+routes/web.php           → Déclaration des routes
+```
