@@ -5,27 +5,33 @@
 
     <div class="min-h-screen flex">
         <!-- Left side -->
-        <div class="hidden sm:block sm:w-1/2 relative min-h-screen flex items-center justify-center">
-            <!-- Blurred blue background -->
-            <div class="absolute inset-0 bg-gradient-to-b from-[#06327d] to-[#0a4d9c] blur-sm"></div>
-            <!-- Logo (centered, not blurred) -->
-            <img src="{{ asset('images/logo.png') }}" alt="Logo de l'institution" class="relative z-10 max-w-[360px] max-h-[360px] object-contain" />
+        <div class="hidden sm:block sm:w-[46%] relative min-h-screen overflow-hidden">
+
+            <img
+                src="{{ asset('images/Logo1.png') }}"
+                alt="Image de l'établissement"
+                class="absolute inset-0 w-full h-full object-cover"
+            />
+
+            <!-- Overlay léger pour garder un aspect institutionnel -->
+            <div class="absolute inset-0 bg-[#06327d]/20"></div>
+
         </div>
 
         <!-- Right side -->
-        <div class="sm:w-1/2 w-full flex items-center justify-center bg-white">
-            <div class="w-full max-w-[500px] space-y-6">
+        <div class="sm:w-[50%] w-full flex items-center justify-center bg-white px-8 lg:px-16">
+            <div class="w-full max-w-[650px] space-y-8">
                 <!-- Icon and title -->
                 <div class="flex items-center mb-4">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-md bg-[#06327d] text-white">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-[#06327d] text-white">
                         <!-- Graduation cap icon (Heroicons) -->
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 15v2m-3-3h6m3-10H6a2 2 0 00-2 2v4a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2h-3zM9 15l3-3m0 0l3 3m-3 3H6a2 2 0 01-2-2V5a2 2 0 012-2h8a2 2 0 012 2v5a2 2 0 01-2 2z" />
                         </svg>
                     </div>
                     <div class="ml-3">
-                        <h2 class="text-3xl font-semibold text-[#06327d]">Gestion administrative</h2>
-                        <p class="text-lg text-gray-500">Système de gestion du service de la scolarité</p>
+                        <h2 class="text-4xl font-bold text-[#06327d]">Gestion administrative</h2>
+                        <p class="text-xl text-gray-500 mt-1">Système de gestion du service de la scolarité</p>
                     </div>
                 </div>
 
@@ -89,10 +95,25 @@
                     </div>
 
                     <div class="mt-6">
-                        <button type="submit" class="w-full inline-flex items-center px-4 py-3 bg-[#06327d] text-white font-lg rounded-md shadow-sm hover:bg-[#0a4d9c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus-ring-indigo-500 transition-colors">
-                            Se connecter
-                            <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        <button
+                            type="submit"
+                            class="w-full flex items-center justify-center px-6 py-4 bg-[#06327d] text-white text-lg font-semibold rounded-md shadow-sm hover:bg-[#0a4d9c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                        >
+                            <span>Se connecter</span>
+
+                            <svg
+                                class="ml-3 h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 5l7 7-7 7"
+                                />
                             </svg>
                         </button>
                     </div>
